@@ -1,0 +1,7 @@
+.DS_Store
+.idea
+*.log
+tmp/
+
+# Ignore the datasate it is to big
+dataset/
