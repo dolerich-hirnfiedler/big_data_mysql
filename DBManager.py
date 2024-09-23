@@ -2,7 +2,7 @@
 import csv
 from datetime import datetime
 import os
-from typing import Any, Tuple
+from typing import Any
 
 import mysql.connector as mysql
 from mysql.connector.types import RowType
