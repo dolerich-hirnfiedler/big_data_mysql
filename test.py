@@ -88,3 +88,46 @@ taxi_result = dbm.dbc.cursor.fetchall()
 print(f"Taxi users")
 for r in taxi_result:
     print(f"User: {r[0]}")
+
+
+# Exercise 5: Find all types of transportation modes and count how many activities that are tagged with these transportation mode labels. Do not count the rows where the mode is null.
+
+type_tr_query= """
+SELECT transportation_mode, COUNT(*) AS activity_count
+FROM activity
+WHERE transportation_mode !=""
+GROUP BY transportation_mode;
+"""
+dbm.dbc.cursor.execute(type_tr_query)
+type_tr_result= dbm.dbc.cursor.fetchall()
+for r in type_tr_result:
+    # print(r)
+    print(f"mode: {r[0]} count: {r[1]}")
+
+
+# Exercise 6:
+# a) Find the year with the most activities.
+e6a_query="""
+SELECT YEAR(start_date_time) AS year, COUNT(*) AS activity_count
+FROM activity
+GROUP BY YEAR(start_date_time)
+ORDER BY activity_count DESC
+LIMIT 1;
+"""
+dbm.dbc.cursor.execute(e6a_query)
+e6a_result= dbm.dbc.cursor.fetchone()
+print(f"Year: {e6a_result[0]} Amount {e6a_result[1]}")
+
+
+
+# b) Is this also the year with most recorded hours?
+e6b_query="""
+SELECT YEAR(start_date_time) AS year, SUM(TIMESTAMPDIFF(HOUR, start_date_time, end_date_time)) AS total_hours
+FROM activity
+GROUP BY YEAR(start_date_time)
+ORDER BY total_hours DESC
+LIMIT 1;
+"""
+dbm.dbc.cursor.execute(e6b_query)
+e6b_result= dbm.dbc.cursor.fetchone()
+print(f"Year: {e6b_result[0]} Amount {e6b_result[1]}")
